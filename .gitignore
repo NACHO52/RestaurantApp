@@ -1,0 +1,9 @@
+
+.vs/RestaurantApp/v16/.suo
+/Debug
+/.vs
+/RestaurantApp/Debug
+RestaurantApp.sln
+*.vcxproj
+*.filters
+*.user
