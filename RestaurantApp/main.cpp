@@ -1,23 +1,23 @@
 #include <iostream>
+#include <Windows.h>
+
 #include "rlutil.h"
-#include "Cliente.h"
+#include "Logica.h"
 
 using namespace std;
 
 int main()
 {
     int option;
-    cout << "Bienvenido" << endl;
+    rlutil::locate(30,10);
 
+    cout << "BIENVENIDO";
+    Sleep(2000);
+
+    system("cls");
     while (true)
     {
-        system("cls");
-        cout << "1 _ PLATOS" << endl;
-        cout << "2 _ CLIENTES" << endl;
-        cout << "3 _ EMPLEADOS" << endl;
-        cout << "4 _ VENTAS" << endl;
-        cout << endl << "0 _ SALIR" << endl;
-
+        DibujarMenu();
         cin >> option;
 
         switch (option)
@@ -26,24 +26,33 @@ int main()
             system("cls");
             cout << "opcion 1" << endl;
             system("pause");
+            system("cls");
             break;
         case 2:
             system("cls");
             cout << "opcion 2" << endl;
             system("pause");
+            system("cls");
             break;
         case 3:
             system("cls");
             cout << "opcion 3" << endl;
             system("pause");
+            system("cls");
             break;
         case 4:
             system("cls");
             cout << "opcion 4" << endl;
             system("pause");
+            system("cls");
+            break;
+        case 0:
+            return 0;
             break;
         default:
-            return 0;
+            rlutil::setColor(rlutil::LIGHTRED);
+            rlutil::locate(25,22);
+            cout << "OPCION INCORRECTA" << endl;
             break;
         }
 
