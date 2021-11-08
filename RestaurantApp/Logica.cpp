@@ -2,7 +2,7 @@
 #include "rlutil.h"
 using namespace std;
 
-void DibujarMenu()
+void MenuPrincipal()
 {
 
     rlutil::setBackgroundColor(rlutil::BLACK);

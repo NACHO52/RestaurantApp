@@ -11,13 +11,13 @@ int main()
     int option;
     rlutil::locate(30,10);
 
-    cout << "BIENVENIDO";
-    Sleep(2000);
+    /*cout << "BIENVENIDO";
+    Sleep(2000);*/
 
     system("cls");
     while (true)
     {
-        DibujarMenu();
+        MenuPrincipal();
         cin >> option;
 
         switch (option)

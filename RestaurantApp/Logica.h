@@ -1,2 +1,2 @@
 
-void DibujarMenu();
+void MenuPrincipal();
