@@ -1,0 +1,3 @@
+
+void MenuModuloPlato();
+void DibujarMenuModuloPlato();

@@ -3,6 +3,7 @@
 
 #include "rlutil.h"
 #include "Logica.h"
+#include "ModuloPlato.h"
 
 using namespace std;
 
@@ -24,8 +25,7 @@ int main()
         {
         case 1:
             system("cls");
-            cout << "opcion 1" << endl;
-            system("pause");
+            MenuModuloPlato();
             system("cls");
             break;
         case 2:
@@ -50,6 +50,7 @@ int main()
             return 0;
             break;
         default:
+            system("cls");
             rlutil::setColor(rlutil::LIGHTRED);
             rlutil::locate(25,22);
             cout << "OPCION INCORRECTA" << endl;
