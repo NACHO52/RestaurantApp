@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdio>
 #include "rlutil.h"
 using namespace std;
 
@@ -48,6 +49,23 @@ void MenuPrincipal()
     cout << "0 _ SALIR";
 
 
-    rlutil::setColor(rlutil::WHITE);
     rlutil::locate(25, 20);
+    cout << "OPCION:";
+
+    rlutil::setColor(rlutil::WHITE);
+    rlutil::locate(34, 20);
+}
+
+
+void CargarCadena(char* pal, int tam) 
+{
+    fflush(stdin);
+    int i;
+    for (i = 0; i < tam; i++) 
+    {
+        pal[i] = cin.get();
+        if (pal[i] == '\n') break;
+    }
+    pal[i] = '\0';
+    fflush(stdin);
 }
