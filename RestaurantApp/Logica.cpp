@@ -56,7 +56,6 @@ void MenuPrincipal()
     rlutil::locate(34, 20);
 }
 
-
 void CargarCadena(char* pal, int tam) 
 {
     fflush(stdin);
@@ -68,4 +67,14 @@ void CargarCadena(char* pal, int tam)
     }
     pal[i] = '\0';
     fflush(stdin);
+}
+
+void LimpiarFooter()
+{
+    rlutil::locate(0, 0);
+    for (int i = 0; i < 18; i++)
+    {
+            rlutil::locate(-10, 0+i);
+            cout << "                                                                                "<< endl;
+    }
 }

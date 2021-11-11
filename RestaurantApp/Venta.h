@@ -1,5 +1,6 @@
 #ifndef VENTA_H
 #define VENTA_H
+#include "Fecha.h"
 
 enum class MedioEntrega {
 	EnLocal = 1,
@@ -16,7 +17,7 @@ class Venta
 		int _id;
 		int _clienteId;
 		int _platoId;
-		//TODO: poner fecha
+		Fecha _fecha;
 		MedioEntrega _entrega;
 		MedioPago _pago;
 
@@ -28,11 +29,13 @@ class Venta
 		void setPlatoId(int pId);
 		void setEntrega(MedioEntrega e);
 		void setPago(MedioPago p);
+		void setFecha(Fecha f);
 
 		int getId();
 		int getClienteId();
 		int getPlatoId();
 		MedioEntrega getEntrega();
 		MedioPago getPago();
+		Fecha getFecha();
 };
 #endif

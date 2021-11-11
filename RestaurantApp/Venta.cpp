@@ -35,6 +35,11 @@ void Venta::setPago(MedioPago p)
 	_pago = p;
 }
 
+void Venta::setFecha(Fecha f)
+{
+	_fecha = f;
+}
+
 int Venta::getId()
 {
 	return _id;
@@ -58,4 +63,9 @@ MedioEntrega Venta::getEntrega()
 MedioPago Venta::getPago()
 {
 	return _pago;
+}
+
+Fecha Venta::getFecha()
+{
+	return _fecha;
 }

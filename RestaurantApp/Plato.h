@@ -1,5 +1,9 @@
 #ifndef PLATO_H
 #define PLATO_H
+#include <string>
+using namespace std;
+
+
 
 enum class PlatoTipo {
 	Entrada = 1,
@@ -17,6 +21,7 @@ class Plato
 		float _precio;
 		PlatoTipo _tipo;
 		bool _disponible;
+		//string _nombre;
 
 	public:
 		Plato();
@@ -25,7 +30,9 @@ class Plato
 		char* getNombre();
 		float getPrecio();
 		PlatoTipo getTipo();
+		string getTipoStr();
 		bool getDisponible();
+		string getDisponibleStr();
 
 		void setId(int i);
 		void setNombre(char* n);
