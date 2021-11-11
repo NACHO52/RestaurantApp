@@ -4,6 +4,7 @@
 #include "rlutil.h"
 #include "Logica.h"
 #include "ModuloPlato.h"
+#include "ModuloEmpleado.h"
 
 using namespace std;
 
@@ -36,8 +37,7 @@ int main()
             break;
         case 3:
             system("cls");
-            cout << "opcion 3" << endl;
-            system("pause");
+            MenuModuloEmpleado();
             system("cls");
             break;
         case 4:

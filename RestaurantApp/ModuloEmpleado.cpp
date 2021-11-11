@@ -1,12 +1,54 @@
 #include <iostream>
 #include "rlutil.h"
-#include "Plato.h"
+#include "Empleado.h"
 #include "Logica.h"
-#include "ModuloPlato.h"
+#include "ModuloEmpleado.h"
 
 using namespace std;
 
-void DibujarMenuModuloPlato()
+void MenuModuloEmpleado()
+{
+    int opcion;
+    bool volver = false;
+
+    while (!volver)
+    {
+        DibujarMenuModuloEmpleado();
+
+        cin >> opcion;
+
+        switch (opcion)
+        {
+        case 1:
+            system("cls");
+            CrearEmpleadoVista();
+            cout << "Opción 1" << endl;
+            system("cls");
+            break;
+        case 2:
+            system("cls");
+            MenuModuloEmpleadoBuscar();
+            system("cls");
+            break;
+            /*case 3:
+                system("cls");
+                cout << "opcion 3" << endl;
+                system("cls");
+                break;*/
+        case 0:
+            volver = true;
+            break;
+        default:
+            system("cls");
+            rlutil::setColor(rlutil::LIGHTRED);
+            rlutil::locate(25, 22);
+            cout << "OPCION INCORRECTA" << endl;
+            break;
+        }
+    }
+}
+
+void DibujarMenuModuloEmpleado()
 {
 
     rlutil::setBackgroundColor(rlutil::BLACK);
@@ -53,7 +95,7 @@ void DibujarMenuModuloPlato()
     rlutil::locate(34, 20);
 }
 
-void DibujarMenuPlatoReportes()
+void DibujarMenuEmpleadoReportes()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
@@ -102,7 +144,7 @@ void DibujarMenuPlatoReportes()
     rlutil::locate(34, 20);
 }
 
-void DibujarMenuPlatoBuscar()
+void DibujarMenuEmpleadoBuscar()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
@@ -114,11 +156,9 @@ void DibujarMenuPlatoBuscar()
     rlutil::locate(15, 7);
     cout << "2 _ ID";
     rlutil::locate(15, 9);
-    cout << "3 _ NOMBRE";
+    cout << "3 _ TIPO";
     rlutil::locate(15, 11);
-    cout << "4 _ DISPONIBLE";
-    rlutil::locate(15, 13);
-    cout << "5 _ TIPO";
+    cout << "4 _ ACTIVO";
 
     rlutil::locate(15, 16);
     cout << "0 _ VOLVER";
@@ -132,7 +172,7 @@ void DibujarMenuPlatoBuscar()
 
 }
 
-void MenuModuloPlatoBuscar()
+void MenuModuloEmpleadoBuscar()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
@@ -140,7 +180,7 @@ void MenuModuloPlatoBuscar()
     bool volver = false;
     while (!volver)
     {
-        DibujarMenuPlatoBuscar();
+        DibujarMenuEmpleadoBuscar();
 
         cin >> filtro;
 
@@ -148,28 +188,23 @@ void MenuModuloPlatoBuscar()
         {
         case 1:
             system("cls");
-            BuscarPlatoTodos();
+            BuscarEmpleadoTodos();
             system("pause");
             system("cls");
             break;
         case 2:
             system("cls");
-            BuscarPlatoPorId();
+            BuscarEmpleadoPorId();
             system("cls");
             break;
         case 3:
             system("cls");
-            BuscarPlatoPorNombre();
+            BuscarEmpleadoPorTipo();
             system("cls");
             break;
         case 4:
             system("cls");
-            BuscarPlatoPorDisponible();
-            system("cls");
-            break;
-        case 5:
-            system("cls");
-            BuscarPlatoPorTipo();
+            BuscarEmpleadoPorActivo();
             system("cls");
             break;
         case 0:
@@ -185,13 +220,13 @@ void MenuModuloPlatoBuscar()
     }
 }
 
-void BuscarPlatoTodos()
+void BuscarEmpleadoTodos()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
     int cantidad;
 
-    FILE* f = fopen("Plato.dat", "rb");
+    FILE* f = fopen("Empleado.dat", "rb");
     if (f == NULL)
     {
         rlutil::locate(18, 10);
@@ -200,22 +235,24 @@ void BuscarPlatoTodos()
     else
     {
         fseek(f, 0, SEEK_SET);
-        Plato plato;
-        cout << endl << " ID  NOMBRE                 PRECIO        TIPO          DISPONIBLE " << endl;
-        cout << "____________________________________________________________________" << endl << endl;
+        Empleado empleado;
+        cout << endl << " ID  NOMBRE                 APELLIDO                DNI      TIPO        ACTIVO" << endl;
+        cout << "_______________________________________________________________________________" << endl << endl;
         int i = 0;
-        while (fread(&plato, sizeof(Plato), 1, f) == 1)
+        while (fread(&empleado, sizeof(Empleado), 1, f) == 1)
         {
             rlutil::locate(2, 6 + i);
-            cout << plato.getId();
+            cout << empleado.getId();
             rlutil::locate(6, 6 + i);
-            cout << plato.getNombre();
+            cout << empleado.getNombre();
             rlutil::locate(29, 6 + i);
-            cout << plato.getPrecio();
-            rlutil::locate(43, 6 + i);
-            cout << plato.getTipoStr();
-            rlutil::locate(57, 6 + i);
-            cout << plato.getDisponibleStr();
+            cout << empleado.getApellido();
+            rlutil::locate(53, 6 + i);
+            cout << empleado.getDni();
+            rlutil::locate(62, 6 + i);
+            cout << empleado.getTipoStr();
+            rlutil::locate(74, 6 + i);
+            cout << empleado.getActivoStr();
             i++;
         }
         cout << endl << endl;
@@ -223,66 +260,17 @@ void BuscarPlatoTodos()
     }
 }
 
-void BuscarPlatoPorNombre()
-{
-    rlutil::setBackgroundColor(rlutil::BLACK);
-    rlutil::setColor(rlutil::LIGHTGREEN);
-    char nombre[20] = {};
-    int cantidad;
-    rlutil::locate(10, 2);
-    cout << "NOMBRE: ";
-    rlutil::locate(18, 2);
-    cin >> nombre;
-
-    FILE* f = fopen("Plato.dat", "rb");
-    if (f == NULL)
-    {
-        rlutil::locate(18, 10);
-        cout << "NO EXISTEN REGISTROS DE DATOS" << endl << endl;
-        system("pause");
-    }
-    else
-    {
-        fseek(f, 0, SEEK_SET);
-        Plato plato;
-        cout << endl << " ID  NOMBRE                 PRECIO        TIPO          DISPONIBLE " << endl;
-        cout << "____________________________________________________________________" << endl << endl;
-        int i = 0;
-        while (fread(&plato, sizeof(Plato), 1, f) == 1)
-        {
-            if (strcmp(plato.getNombre(), nombre) == 0)
-            {
-                rlutil::locate(2, 6 + i);
-                cout << plato.getId();
-                rlutil::locate(6, 6 + i);
-                cout << plato.getNombre();
-                rlutil::locate(29, 6 + i);
-                cout << plato.getPrecio();
-                rlutil::locate(43, 6 + i);
-                cout << plato.getTipoStr();
-                rlutil::locate(57, 6 + i);
-                cout << plato.getDisponibleStr();
-                i++;
-                break;
-            }
-        }
-        cout << endl << endl;
-        MenuPlatoEdicion();
-        fclose(f);
-    }
-}
-
-void BuscarPlatoPorDisponible()
+void BuscarEmpleadoPorActivo()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
     bool disponible;
     rlutil::locate(10, 2);
-    cout << "DISPONIBLE: ";
+    cout << "ACTIVO: ";
     rlutil::locate(23, 2);
     cin >> disponible;
 
-    FILE* f = fopen("Plato.dat", "rb");
+    FILE* f = fopen("Empleado.dat", "rb");
     if (f == NULL)
     {
         rlutil::locate(18, 10);
@@ -292,34 +280,36 @@ void BuscarPlatoPorDisponible()
     else
     {
         fseek(f, 0, SEEK_SET);
-        Plato plato;
-        cout << endl << " ID  NOMBRE                 PRECIO        TIPO          DISPONIBLE " << endl;
-        cout << "____________________________________________________________________" << endl << endl;
+        Empleado empleado;
+        cout << endl << " ID  NOMBRE                 APELLIDO                DNI      TIPO        ACTIVO" << endl;
+        cout << "_______________________________________________________________________________" << endl << endl;
         int i = 0;
-        while (fread(&plato, sizeof(Plato), 1, f) == 1)
+        while (fread(&empleado, sizeof(Empleado), 1, f) == 1)
         {
-            if (plato.getDisponible() == disponible)
+            if (empleado.getActivo() == disponible)
             {
                 rlutil::locate(2, 6 + i);
-                cout << plato.getId();
+                cout << empleado.getId();
                 rlutil::locate(6, 6 + i);
-                cout << plato.getNombre();
+                cout << empleado.getNombre();
                 rlutil::locate(29, 6 + i);
-                cout << plato.getPrecio();
-                rlutil::locate(43, 6 + i);
-                cout << plato.getTipoStr();
-                rlutil::locate(57, 6 + i);
-                cout << plato.getDisponibleStr();
+                cout << empleado.getApellido();
+                rlutil::locate(53, 6 + i);
+                cout << empleado.getDni();
+                rlutil::locate(62, 6 + i);
+                cout << empleado.getTipoStr();
+                rlutil::locate(74, 6 + i);
+                cout << empleado.getActivoStr();
                 i++;
             }
         }
         cout << endl << endl;
-        MenuPlatoEdicion();
+        MenuEmpleadoEdicion();
         fclose(f);
     }
 }
 
-void BuscarPlatoPorTipo()
+void BuscarEmpleadoPorTipo()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
@@ -329,7 +319,7 @@ void BuscarPlatoPorTipo()
     rlutil::locate(17, 2);
     cin >> tipo;
 
-    FILE* f = fopen("Plato.dat", "rb");
+    FILE* f = fopen("Empleado.dat", "rb");
     if (f == NULL)
     {
         rlutil::locate(18, 10);
@@ -339,34 +329,36 @@ void BuscarPlatoPorTipo()
     else
     {
         fseek(f, 0, SEEK_SET);
-        Plato plato;
-        cout << endl << " ID  NOMBRE                 PRECIO        TIPO          DISPONIBLE " << endl;
-        cout << "____________________________________________________________________" << endl << endl;
+        Empleado empleado;
+        cout << endl << " ID  NOMBRE                 APELLIDO                DNI      TIPO        ACTIVO" << endl;
+        cout << "_______________________________________________________________________________" << endl << endl;
         int i = 0;
-        while (fread(&plato, sizeof(Plato), 1, f) == 1)
+        while (fread(&empleado, sizeof(Empleado), 1, f) == 1)
         {
-            if (plato.getTipo() == (PlatoTipo)tipo)
+            if (empleado.getTipo() == (EmpleadoTipo)tipo)
             {
                 rlutil::locate(2, 6 + i);
-                cout << plato.getId();
+                cout << empleado.getId();
                 rlutil::locate(6, 6 + i);
-                cout << plato.getNombre();
+                cout << empleado.getNombre();
                 rlutil::locate(29, 6 + i);
-                cout << plato.getPrecio();
-                rlutil::locate(43, 6 + i);
-                cout << plato.getTipoStr();
-                rlutil::locate(57, 6 + i);
-                cout << plato.getDisponibleStr();
+                cout << empleado.getApellido();
+                rlutil::locate(53, 6 + i);
+                cout << empleado.getDni();
+                rlutil::locate(62, 6 + i);
+                cout << empleado.getTipoStr();
+                rlutil::locate(74, 6 + i);
+                cout << empleado.getActivoStr();
                 i++;
             }
         }
         cout << endl << endl;
-        MenuPlatoEdicion();
         fclose(f);
+        MenuEmpleadoEdicion();
     }
 }
 
-void BuscarPlatoPorId()
+void BuscarEmpleadoPorId()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
@@ -377,7 +369,7 @@ void BuscarPlatoPorId()
     rlutil::locate(18, 2);
     cin >> id;
 
-    FILE* f = fopen("Plato.dat", "rb");
+    FILE* f = fopen("Empleado.dat", "rb");
     if (f == NULL)
     {
         rlutil::locate(18, 10);
@@ -387,34 +379,36 @@ void BuscarPlatoPorId()
     else
     {
         fseek(f, 0, SEEK_SET);
-        Plato plato;
-        cout << endl << " ID  NOMBRE                 PRECIO        TIPO          DISPONIBLE " << endl;
-        cout << "____________________________________________________________________" << endl << endl;
+        Empleado empleado;
+        cout << endl << " ID  NOMBRE                 APELLIDO                DNI      TIPO        ACTIVO" << endl;
+        cout << "_______________________________________________________________________________" << endl << endl;
         int i = 0;
-        while (fread(&plato, sizeof(Plato), 1, f) == 1)
+        while (fread(&empleado, sizeof(Empleado), 1, f) == 1)
         {
-            if (plato.getId() == id)
+            if (empleado.getId() == id)
             {
                 rlutil::locate(2, 6 + i);
-                cout << plato.getId();
+                cout << empleado.getId();
                 rlutil::locate(6, 6 + i);
-                cout << plato.getNombre();
+                cout << empleado.getNombre();
                 rlutil::locate(29, 6 + i);
-                cout << plato.getPrecio();
-                rlutil::locate(43, 6 + i);
-                cout << plato.getTipoStr();
-                rlutil::locate(57, 6 + i);
-                cout << plato.getDisponibleStr();
+                cout << empleado.getApellido();
+                rlutil::locate(53, 6 + i);
+                cout << empleado.getDni();
+                rlutil::locate(62, 6 + i);
+                cout << empleado.getTipoStr();
+                rlutil::locate(74, 6 + i);
+                cout << empleado.getActivoStr();
                 break;
             }
         }
         cout << endl << endl;
-        MenuPlatoEdicion();
+        MenuEmpleadoEdicion();
         fclose(f);
     }
 }
 
-void MenuPlatoEdicion()
+void MenuEmpleadoEdicion()
 {
     rlutil::locate(8,16);
     cout << "PARA EDITAR INGRESE EL ID DEL REGISTRO";
@@ -434,16 +428,18 @@ void MenuPlatoEdicion()
     {
         system("cls");
         rlutil::setColor(rlutil::LIGHTGREEN);
-        Plato plato = GetPlatoById(opcion);
+        Empleado empleado = GetEmpleadoById(opcion);
 
         rlutil::locate(10, 2);
-        cout << "NOMBRE: " << plato.getNombre();
+        cout << "NOMBRE: " << empleado.getNombre();
         rlutil::locate(10, 5);
-        cout << "PRECIO: " << plato.getPrecio();
-        rlutil::locate(40, 2);
-        cout << "TIPO: " << plato.getTipoStr();
-        rlutil::locate(40, 5);
-        cout << "DISPONIBLE: " << plato.getDisponibleStr();
+        cout << "APELLIDO: " << empleado.getApellido();
+        rlutil::locate(10, 8);
+        cout << "D.N.I.: " << empleado.getDni();
+        rlutil::locate(45, 2);
+        cout << "TIPO: " << empleado.getTipoStr();
+        rlutil::locate(45, 5);
+        cout << "ACTIVO: " << empleado.getActivoStr();
 
         rlutil::locate(8, 12);
         cout << "NUEVOS DATOS: ";
@@ -451,35 +447,41 @@ void MenuPlatoEdicion()
         rlutil::locate(10, 15);
         cout << "NOMBRE: ";
         rlutil::locate(10, 18);
-        cout << "PRECIO: ";
-        rlutil::locate(40, 15);
+        cout << "APELLIDO: ";
+        rlutil::locate(10, 21);
+        cout << "D.N.I.: ";
+        rlutil::locate(45, 15);
         cout << "TIPO: ";
-        rlutil::locate(40, 18);
-        cout << "DISPONIBLE: ";
+        rlutil::locate(45, 18);
+        cout << "ACTIVO: ";
 
-        char nombre[20];
-        float precio;
+        char nombre[23];
+        char apellido[23];
+        char dni[10];
         int tipo;
-        bool disponible;
+        bool activo;
 
         rlutil::setColor(rlutil::WHITE);
-        rlutil::locate(18, 15);
+        rlutil::locate(21, 15);
         cin >> nombre;
-        rlutil::locate(18, 18);
-        cin >> precio;
-        rlutil::locate(52, 15);
+        rlutil::locate(21, 18);
+        cin >> apellido;
+        rlutil::locate(21, 21);
+        cin >> dni;
+        rlutil::locate(53, 15);
         cin >> tipo;
-        rlutil::locate(52, 18);
-        cin >> disponible;
+        rlutil::locate(53, 18);
+        cin >> activo;
 
-        plato.setDispobible(disponible);
-        plato.setNombre(nombre);
-        plato.setPrecio(precio);
-        plato.setTipo((PlatoTipo)tipo);
+        empleado.setNombre(nombre);
+        empleado.setApellido(apellido);
+        empleado.setDni(dni);
+        empleado.setTipo((EmpleadoTipo)tipo);
+        empleado.setActivo(activo);
 
         rlutil::setColor(rlutil::LIGHTGREEN);
         rlutil::locate(26, 20);
-        if (PlatoGuardar(plato, false))
+        if (EmpleadoGuardar(empleado, false))
         {
             cout << "GUARDADO EXITOSO" << endl;
 
@@ -493,117 +495,72 @@ void MenuPlatoEdicion()
     }
 }
 
-void CrearPlatoVista()
+void CrearEmpleadoVista()
 {
     rlutil::setColor(rlutil::LIGHTGREEN);
-    char nombre[20];
-    float precio;
+    char apellido[30];
+    char nombre[30];
+    char dni[20];
     int tipo;
-    bool disponible;
 
     rlutil::locate(24, 2);
-    cout << "CREAR PLATO";
+    cout << "CREAR EMPLEADO";
 
     rlutil::locate(9, 5);
     cout << "NOMBRE: ";
     rlutil::locate(9, 7);
-    cout << "PRECIO: ";
+    cout << "APELLIDO: ";
     rlutil::locate(9, 9);
+    cout << "D.N.I.: ";
+    rlutil::locate(9, 11);
     cout << "TIPO: ";
-    //rlutil::locate(9, 11);
-    //cout << "DISPONIBLE: ";
 
     rlutil::setColor(rlutil::WHITE);
 
     rlutil::locate(24, 5);
-    //CargarCadena(nombre, 20);
     cin >> nombre;
-
     rlutil::locate(24, 7);
-    cin >> precio;
+    cin >> apellido;
     rlutil::locate(24, 9);
+    cin >> dni;
+    rlutil::locate(24, 11);
     cin >> tipo;
-    /*rlutil::locate(24, 11);
-    cin >> disponible;*/
 
+    int nuevoId = EmpleadoGetUltimoId();
 
-    int nuevoId = PlatoGetUltimoId();
-
-    Plato obj;
-    obj.setDispobible(true);
+    Empleado obj;
+    obj.setApellido(apellido);
     obj.setNombre(nombre);
-    obj.setPrecio(precio);
-    obj.setTipo((PlatoTipo)tipo);
+    obj.setDni(dni);
+    obj.setTipo((EmpleadoTipo)tipo);
     obj.setId(nuevoId + 1);
 
     rlutil::locate(25, 20);
-    if (PlatoGuardar(obj, true))
+    if (EmpleadoGuardar(obj, true))
     {
         rlutil::setColor(rlutil::LIGHTGREEN);
-        cout << "EL ARCHIVO SE GUARDO CORRECTAMENTE.";
+        cout << "EL REGISTRO SE GUARDO CORRECTAMENTE.";
         rlutil::locate(25, 22);
         system("pause");
     }
     else
     {
-        cout << "Ha ocurrido un error al grabar los datos.";
+        cout << "HA OCURRIDO UN ERROR AL GUARDAR LOS DATOS.";
         rlutil::locate(25, 22);
         system("pause");
     }
-
 }
 
-void MenuModuloPlato()
-{
-    int opcionPlato;
-    bool volver = false;
-
-    while (!volver)
-    {
-        DibujarMenuModuloPlato();
-
-        cin >> opcionPlato;
-
-        switch (opcionPlato)
-        {
-        case 1:
-            system("cls");
-            CrearPlatoVista();
-            system("cls");
-            break;
-        case 2:
-            system("cls");
-            MenuModuloPlatoBuscar();
-            system("cls");
-            break;
-        /*case 3:
-            system("cls");
-            cout << "opcion 3" << endl;
-            system("cls");
-            break;*/
-        case 0:
-            volver = true;
-            break;
-        default:
-            system("cls");
-            rlutil::setColor(rlutil::LIGHTRED);
-            rlutil::locate(25, 22);
-            cout << "OPCION INCORRECTA" << endl;
-            break;
-        }
-    }
-}
-
-int PlatoGetUltimoId()
+int EmpleadoGetUltimoId()
 {
     int id = 0;
-    FILE* f = fopen("Plato.dat", "rb+");
+    FILE* f = fopen("Empleado.dat", "rb+");
     if (f == NULL)
     {
         return 0;
     }
-    fseek(f, (sizeof(Plato) * (GetPlatosCantidad() - 1)), SEEK_SET);
-    Plato obj;
+    fseek(f, (sizeof(Empleado) * (GetEmpleadosCantidad() - 1)), SEEK_SET);
+    Empleado obj;
     if (fread(&obj, sizeof(obj), 1, f))
     {
         id = obj.getId();
@@ -612,39 +569,39 @@ int PlatoGetUltimoId()
     return id;
 }
 
-bool PlatoGuardar(Plato obj, bool nuevo)
+bool EmpleadoGuardar(Empleado obj, bool nuevo)
 {
     if (nuevo)
     {
-        FILE* f = fopen("Plato.dat", "ab");
+        FILE* f = fopen("Empleado.dat", "ab");
         if (f == NULL)
         {
             return false;
         }
         fseek(f, 0, SEEK_END);
-        fwrite(&obj, sizeof(Plato), 1, f);
+        fwrite(&obj, sizeof(Empleado), 1, f);
         fclose(f);
         return true;
     }
     else
     {
-        FILE* f = fopen("Plato.dat", "rb+");
+        FILE* f = fopen("Empleado.dat", "rb+");
         if (f == NULL)
         {
             return false;
         }
         int pos = obj.getId() - 1;
-        fseek(f, sizeof(Plato) * pos, SEEK_SET);
-        fwrite(&obj, sizeof(Plato), 1, f);
+        fseek(f, sizeof(Empleado) * pos, SEEK_SET);
+        fwrite(&obj, sizeof(Empleado), 1, f);
         fclose(f);
         return true;
     }
 }
 
-int GetPlatosCantidad()
+int GetEmpleadosCantidad()
 {
     int bytes;
-    FILE* f = fopen("Plato.dat", "rb");
+    FILE* f = fopen("Empleado.dat", "rb");
     if (f == NULL)
     {
         return -1;
@@ -652,19 +609,20 @@ int GetPlatosCantidad()
     fseek(f, 0, SEEK_END);
     bytes = ftell(f);
     fclose(f);
-    return bytes / sizeof(Plato);
+    return bytes / sizeof(Empleado);
 }
 
-Plato GetPlatoById(int id)
+Empleado GetEmpleadoById(int id)
 {
-    Plato obj;
-    FILE* f = fopen("Plato.dat", "rb+");
+    Empleado obj;
+    FILE* f = fopen("Empleado.dat", "rb+");
     if (f != NULL)
     {
-        fseek(f, (sizeof(Plato) * (id - 1)), SEEK_SET);
+        fseek(f, (sizeof(Empleado) * (id - 1)), SEEK_SET);
         fread(&obj, sizeof(obj), 1, f);
         fclose(f);
     }
 
     return obj;
 }
+

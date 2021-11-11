@@ -4,9 +4,9 @@ class Persona
 {
 	protected:
 		int _id;
-		char _apellido[50];
-		char _nombre[50];
-		char _dni[20];
+		char _apellido[23];
+		char _nombre[23];
+		char _dni[10];
 
 	public:
 		Persona();
