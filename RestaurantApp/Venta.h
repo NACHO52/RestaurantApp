@@ -1,6 +1,9 @@
 #ifndef VENTA_H
 #define VENTA_H
 #include "Fecha.h"
+#include <string.h>
+#include "Plato.h"
+#include "Cliente.h"
 
 enum class MedioEntrega {
 	EnLocal = 1,
@@ -37,5 +40,11 @@ class Venta
 		MedioEntrega getEntrega();
 		MedioPago getPago();
 		Fecha getFecha();
+
+		string getEntregaStr();
+		string getPagoStr();
+		char* getFechaStr();
+		Plato getPlatoObj();
+		Cliente getClienteObj();
 };
 #endif

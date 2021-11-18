@@ -1,5 +1,10 @@
 #include "Venta.h"
 #include <string>
+#include "Plato.h"
+#include "ModuloPlato.h"
+#include "Cliente.h"
+#include "ModuloCliente.h"
+using namespace std;
 
 Venta::Venta()
 {
@@ -68,4 +73,50 @@ MedioPago Venta::getPago()
 Fecha Venta::getFecha()
 {
 	return _fecha;
+}
+
+string Venta::getEntregaStr()
+{
+	string ret = "";
+	switch (_entrega)
+	{
+	case MedioEntrega::EnLocal:
+		ret = "En local";
+		break;
+	case MedioEntrega::Delivery:
+		ret = "Delivery";
+		break;
+	}
+	return ret;
+}
+
+string Venta::getPagoStr()
+{
+	string ret = "";
+	switch (_pago)
+	{
+	case MedioPago::Efectivo:
+		ret = "Efectivo";
+		break;
+	case MedioPago::Tarjeta:
+		ret = "Tarjeta";
+		break;
+	}
+	return ret;
+}
+
+char* Venta::getFechaStr()
+{
+	return _fecha.getFechaCompleta();
+}
+
+Plato Venta::getPlatoObj()
+{
+	return GetPlatoById(_platoId);
+}
+
+
+Cliente Venta::getClienteObj()
+{
+	return GetClienteById(Venta::_clienteId);
 }

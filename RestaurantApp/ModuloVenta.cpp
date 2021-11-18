@@ -1,53 +1,16 @@
 #include <iostream>
 #include "rlutil.h"
-#include "Empleado.h"
+#include "Venta.h"
 #include "Logica.h"
-#include "ModuloEmpleado.h"
+#include "ModuloVenta.h"
+#include "ModuloPlato.h"
+#include "Plato.h"
+#include "ModuloCliente.h"
 
 using namespace std;
 
-void MenuModuloEmpleado()
-{
-    int opcion;
-    bool volver = false;
 
-    while (!volver)
-    {
-        DibujarMenuModuloEmpleado();
-
-        cin >> opcion;
-
-        switch (opcion)
-        {
-        case 1:
-            system("cls");
-            CrearEmpleadoVista();
-            system("cls");
-            break;
-        case 2:
-            system("cls");
-            MenuModuloEmpleadoBuscar();
-            system("cls");
-            break;
-            /*case 3:
-                system("cls");
-                cout << "opcion 3" << endl;
-                system("cls");
-                break;*/
-        case 0:
-            volver = true;
-            break;
-        default:
-            system("cls");
-            rlutil::setColor(rlutil::LIGHTRED);
-            rlutil::locate(25, 22);
-            cout << "OPCION INCORRECTA" << endl;
-            break;
-        }
-    }
-}
-
-void DibujarMenuModuloEmpleado()
+void DibujarMenuModuloVenta()
 {
 
     rlutil::setBackgroundColor(rlutil::BLACK);
@@ -78,7 +41,7 @@ void DibujarMenuModuloEmpleado()
     cout << (char)188;
 
     rlutil::locate(25, 7);
-    cout << "1 _ CREAR";
+    cout << "1 _ NUEVO";
 
     rlutil::locate(25, 9);
     cout << "2 _ BUSCAR";
@@ -94,7 +57,43 @@ void DibujarMenuModuloEmpleado()
     rlutil::locate(34, 20);
 }
 
-void DibujarMenuEmpleadoReportes()
+void MenuModuloVenta()
+{
+    int opcion;
+    bool volver = false;
+
+    while (!volver)
+    {
+        DibujarMenuModuloVenta();
+
+        cin >> opcion;
+
+        switch (opcion)
+        {
+        case 1:
+            system("cls");
+            CrearVentaVista();
+            system("cls");
+            break;
+        case 2:
+            system("cls");
+            MenuModuloVentaBuscar();
+            system("cls");
+            break;
+        case 0:
+            volver = true;
+            break;
+        default:
+            system("cls");
+            rlutil::setColor(rlutil::LIGHTRED);
+            rlutil::locate(25, 22);
+            cout << "OPCION INCORRECTA" << endl;
+            break;
+        }
+    }
+}
+
+void DibujarMenuVentaReportes()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
@@ -124,13 +123,13 @@ void DibujarMenuEmpleadoReportes()
     cout << (char)188;
 
     rlutil::locate(25, 7);
-    cout << "1 _ ENTRADAS";
+    cout << "1 _ CLIENTE";
 
     rlutil::locate(25, 9);
-    cout << "2 _ PRINCIPALES";
+    cout << "2 _ PLATO";
 
     rlutil::locate(25, 11);
-    cout << "3 _ GUARNICIONES";
+    cout << "3 _ FECHA";
 
     rlutil::locate(25, 15);
     cout << "0 _ VOLVER";
@@ -143,7 +142,7 @@ void DibujarMenuEmpleadoReportes()
     rlutil::locate(34, 20);
 }
 
-void DibujarMenuEmpleadoBuscar()
+void DibujarMenuVentaBuscar()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
@@ -152,12 +151,12 @@ void DibujarMenuEmpleadoBuscar()
 
     rlutil::locate(15, 5);
     cout << "1 _ TODOS";
-    rlutil::locate(15, 7);
+    /*rlutil::locate(15, 7);
     cout << "2 _ ID";
     rlutil::locate(15, 9);
     cout << "3 _ TIPO";
     rlutil::locate(15, 11);
-    cout << "4 _ ACTIVO";
+    cout << "4 _ ACTIVO";*/
 
     rlutil::locate(15, 16);
     cout << "0 _ VOLVER";
@@ -171,7 +170,7 @@ void DibujarMenuEmpleadoBuscar()
 
 }
 
-void MenuModuloEmpleadoBuscar()
+void MenuModuloVentaBuscar()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
@@ -179,7 +178,7 @@ void MenuModuloEmpleadoBuscar()
     bool volver = false;
     while (!volver)
     {
-        DibujarMenuEmpleadoBuscar();
+        DibujarMenuVentaBuscar();
 
         cin >> filtro;
 
@@ -187,23 +186,25 @@ void MenuModuloEmpleadoBuscar()
         {
         case 1:
             system("cls");
-            BuscarEmpleadoTodos();
+            BuscarVentaTodos();
             system("pause");
             system("cls");
             break;
         case 2:
             system("cls");
-            BuscarEmpleadoPorId();
+            BuscarVentaPorId();
             system("cls");
             break;
         case 3:
             system("cls");
-            BuscarEmpleadoPorTipo();
+            //BuscarEmpleadoPorTipo();
+            cout << "opcion 3";
             system("cls");
             break;
         case 4:
             system("cls");
-            BuscarEmpleadoPorActivo();
+            //BuscarEmpleadoPorActivo();
+            cout << "opcion 4";
             system("cls");
             break;
         case 0:
@@ -219,13 +220,13 @@ void MenuModuloEmpleadoBuscar()
     }
 }
 
-void BuscarEmpleadoTodos()
+void BuscarVentaTodos()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
     int cantidad;
 
-    FILE* f = fopen("Empleado.dat", "rb");
+    FILE* f = fopen("Venta.dat", "rb");
     if (f == NULL)
     {
         rlutil::locate(18, 10);
@@ -234,24 +235,39 @@ void BuscarEmpleadoTodos()
     else
     {
         fseek(f, 0, SEEK_SET);
-        Empleado empleado;
-        cout << endl << " ID  NOMBRE                 APELLIDO                DNI      TIPO        ACTIVO" << endl;
-        cout << "_______________________________________________________________________________" << endl << endl;
+        Venta venta;
+        rlutil::locate(2, 2);
+        cout << "ID";
+        rlutil::locate(6, 2);
+        cout << "ENTREGA";
+        rlutil::locate(15, 2);
+        cout << "D.N.I.";
+        rlutil::locate(26, 2);
+        cout << "PAGO";
+        rlutil::locate(36, 2);
+        cout << "PLATO";
+        rlutil::locate(56, 2);
+        cout << "PRECIO";
+        cout << endl << "_______________________________________________________________________________" << endl << endl;
         int i = 0;
-        while (fread(&empleado, sizeof(Empleado), 1, f) == 1)
+        while (fread(&venta, sizeof(Venta), 1, f) == 1)
         {
+            Cliente cliente = venta.getClienteObj();
+            Plato plato = venta.getPlatoObj();
             rlutil::locate(2, 6 + i);
-            cout << empleado.getId();
+            cout << venta.getId();
             rlutil::locate(6, 6 + i);
-            cout << empleado.getNombre();
-            rlutil::locate(29, 6 + i);
-            cout << empleado.getApellido();
-            rlutil::locate(53, 6 + i);
-            cout << empleado.getDni();
-            rlutil::locate(62, 6 + i);
-            cout << empleado.getTipoStr();
-            rlutil::locate(74, 6 + i);
-            cout << empleado.getActivoStr();
+            cout << venta.getEntregaStr();
+            rlutil::locate(15, 6 + i);
+            cout << cliente.getDni();
+            rlutil::locate(26, 6 + i);
+            cout << venta.getPagoStr();
+            rlutil::locate(36, 6 + i);
+            cout << plato.getNombre();
+            rlutil::locate(56, 6 + i);
+            cout << "$" << plato.getPrecio();
+           /* rlutil::locate(66, 6 + i);
+            cout << venta.getFechaStr() << " ";*/
             i++;
         }
         cout << endl << endl;
@@ -259,7 +275,7 @@ void BuscarEmpleadoTodos()
     }
 }
 
-void BuscarEmpleadoPorActivo()
+void BuscarVentaPorActivo()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
@@ -269,7 +285,7 @@ void BuscarEmpleadoPorActivo()
     rlutil::locate(23, 2);
     cin >> disponible;
 
-    FILE* f = fopen("Empleado.dat", "rb");
+    FILE* f = fopen("Venta.dat", "rb");
     if (f == NULL)
     {
         rlutil::locate(18, 10);
@@ -279,13 +295,13 @@ void BuscarEmpleadoPorActivo()
     else
     {
         fseek(f, 0, SEEK_SET);
-        Empleado empleado;
+        Venta venta;
         cout << endl << " ID  NOMBRE                 APELLIDO                DNI      TIPO        ACTIVO" << endl;
         cout << "_______________________________________________________________________________" << endl << endl;
         int i = 0;
-        while (fread(&empleado, sizeof(Empleado), 1, f) == 1)
+        while (fread(&venta, sizeof(Venta), 1, f) == 1)
         {
-            if (empleado.getActivo() == disponible)
+            /*if (venta.getActivo() == disponible)
             {
                 rlutil::locate(2, 6 + i);
                 cout << empleado.getId();
@@ -300,15 +316,15 @@ void BuscarEmpleadoPorActivo()
                 rlutil::locate(74, 6 + i);
                 cout << empleado.getActivoStr();
                 i++;
-            }
+            }*/
         }
         cout << endl << endl;
-        MenuEmpleadoEdicion();
+        MenuVentaEdicion();
         fclose(f);
     }
 }
 
-void BuscarEmpleadoPorTipo()
+void BuscarVentaPorTipo()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
@@ -318,7 +334,7 @@ void BuscarEmpleadoPorTipo()
     rlutil::locate(17, 2);
     cin >> tipo;
 
-    FILE* f = fopen("Empleado.dat", "rb");
+    FILE* f = fopen("Venta.dat", "rb");
     if (f == NULL)
     {
         rlutil::locate(18, 10);
@@ -328,13 +344,13 @@ void BuscarEmpleadoPorTipo()
     else
     {
         fseek(f, 0, SEEK_SET);
-        Empleado empleado;
+        Venta venta;
         cout << endl << " ID  NOMBRE                 APELLIDO                DNI      TIPO        ACTIVO" << endl;
         cout << "_______________________________________________________________________________" << endl << endl;
         int i = 0;
-        while (fread(&empleado, sizeof(Empleado), 1, f) == 1)
+        while (fread(&venta, sizeof(Venta), 1, f) == 1)
         {
-            if (empleado.getTipo() == (EmpleadoTipo)tipo)
+            /*if (empleado.getTipo() == (EmpleadoTipo)tipo)
             {
                 rlutil::locate(2, 6 + i);
                 cout << empleado.getId();
@@ -349,15 +365,15 @@ void BuscarEmpleadoPorTipo()
                 rlutil::locate(74, 6 + i);
                 cout << empleado.getActivoStr();
                 i++;
-            }
+            }*/
         }
         cout << endl << endl;
         fclose(f);
-        MenuEmpleadoEdicion();
+        MenuVentaEdicion();
     }
 }
 
-void BuscarEmpleadoPorId()
+void BuscarVentaPorId()
 {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::LIGHTGREEN);
@@ -368,7 +384,7 @@ void BuscarEmpleadoPorId()
     rlutil::locate(18, 2);
     cin >> id;
 
-    FILE* f = fopen("Empleado.dat", "rb");
+    FILE* f = fopen("Venta.dat", "rb");
     if (f == NULL)
     {
         rlutil::locate(18, 10);
@@ -378,15 +394,15 @@ void BuscarEmpleadoPorId()
     else
     {
         fseek(f, 0, SEEK_SET);
-        Empleado empleado;
+        Venta venta;
         cout << endl << " ID  NOMBRE                 APELLIDO                DNI      TIPO        ACTIVO" << endl;
         cout << "_______________________________________________________________________________" << endl << endl;
         int i = 0;
-        while (fread(&empleado, sizeof(Empleado), 1, f) == 1)
+        while (fread(&venta, sizeof(Venta), 1, f) == 1)
         {
-            if (empleado.getId() == id)
+            if (venta.getId() == id)
             {
-                rlutil::locate(2, 6 + i);
+                /*rlutil::locate(2, 6 + i);
                 cout << empleado.getId();
                 rlutil::locate(6, 6 + i);
                 cout << empleado.getNombre();
@@ -397,19 +413,19 @@ void BuscarEmpleadoPorId()
                 rlutil::locate(62, 6 + i);
                 cout << empleado.getTipoStr();
                 rlutil::locate(74, 6 + i);
-                cout << empleado.getActivoStr();
+                cout << empleado.getActivoStr();*/
                 break;
             }
         }
         cout << endl << endl;
-        MenuEmpleadoEdicion();
+        MenuVentaEdicion();
         fclose(f);
     }
 }
 
-void MenuEmpleadoEdicion()
+void MenuVentaEdicion()
 {
-    rlutil::locate(8,16);
+    rlutil::locate(8, 16);
     cout << "PARA EDITAR INGRESE EL ID DEL REGISTRO";
 
     rlutil::locate(8, 18);
@@ -427,18 +443,18 @@ void MenuEmpleadoEdicion()
     {
         system("cls");
         rlutil::setColor(rlutil::LIGHTGREEN);
-        Empleado empleado = GetEmpleadoById(opcion);
+        Venta venta = GetVentaById(opcion);
 
-        rlutil::locate(10, 2);
-        cout << "NOMBRE: " << empleado.getNombre();
+        /*rlutil::locate(10, 2);
+        cout << "NOMBRE: " << venta.getNombre();
         rlutil::locate(10, 5);
-        cout << "APELLIDO: " << empleado.getApellido();
+        cout << "APELLIDO: " << venta.getApellido();
         rlutil::locate(10, 8);
-        cout << "D.N.I.: " << empleado.getDni();
+        cout << "D.N.I.: " << venta.getDni();
         rlutil::locate(45, 2);
-        cout << "TIPO: " << empleado.getTipoStr();
+        cout << "TIPO: " << venta.getTipoStr();
         rlutil::locate(45, 5);
-        cout << "ACTIVO: " << empleado.getActivoStr();
+        cout << "ACTIVO: " << venta.getActivoStr();*/
 
         rlutil::locate(8, 12);
         cout << "NUEVOS DATOS: ";
@@ -472,15 +488,15 @@ void MenuEmpleadoEdicion()
         rlutil::locate(53, 18);
         cin >> activo;
 
-        empleado.setNombre(nombre);
+       /* empleado.setNombre(nombre);
         empleado.setApellido(apellido);
         empleado.setDni(dni);
         empleado.setTipo((EmpleadoTipo)tipo);
-        empleado.setActivo(activo);
+        empleado.setActivo(activo);*/
 
         rlutil::setColor(rlutil::LIGHTGREEN);
         rlutil::locate(26, 20);
-        if (EmpleadoGuardar(empleado, false))
+        if (VentaGuardar(venta, false))
         {
             cout << "GUARDADO EXITOSO" << endl;
 
@@ -494,72 +510,156 @@ void MenuEmpleadoEdicion()
     }
 }
 
-void CrearEmpleadoVista()
+void CrearVentaVista()
 {
     rlutil::setColor(rlutil::LIGHTGREEN);
-    char apellido[30];
-    char nombre[30];
-    char dni[20];
-    int tipo;
+    
+    int dia, mes, anio, pago, entrega;
 
     rlutil::locate(24, 2);
-    cout << "CREAR EMPLEADO";
+    cout << "NUEVA VENTA";
 
     rlutil::locate(9, 5);
-    cout << "NOMBRE: ";
+    cout << "DIA: ";
     rlutil::locate(9, 7);
-    cout << "APELLIDO: ";
+    cout << "MES: ";
     rlutil::locate(9, 9);
-    cout << "D.N.I.: ";
+    cout << "ANIO: ";
     rlutil::locate(9, 11);
-    cout << "TIPO: ";
+    cout << "MEDIO DE PAGO: ";
+    rlutil::locate(9, 13);
+    cout << "ENTREGA: ";
 
     rlutil::setColor(rlutil::WHITE);
 
     rlutil::locate(24, 5);
-    cin >> nombre;
+    cin >> dia;
     rlutil::locate(24, 7);
-    cin >> apellido;
+    cin >> mes;
     rlutil::locate(24, 9);
-    cin >> dni;
+    cin >> anio;
     rlutil::locate(24, 11);
-    cin >> tipo;
+    cin >> pago;
+    rlutil::locate(24, 13);
+    cin >> entrega;
 
-    int nuevoId = EmpleadoGetUltimoId();
+    rlutil::setColor(rlutil::LIGHTGREEN);
+    int platoId = CreacionVentaSeleccionarPlato();
+    if (platoId == -1) return;
+    Plato plato = GetPlatoById(platoId);
+    int nuevoId = VentaGetUltimoId();
+    char dni[10] = "";
 
-    Empleado obj;
-    obj.setApellido(apellido);
-    obj.setNombre(nombre);
-    obj.setDni(dni);
-    obj.setTipo((EmpleadoTipo)tipo);
+    rlutil::locate(24, 2);
+    cout << "NUEVA VENTA";
+
+    rlutil::locate(9, 5);
+    cout << "FECHA: " << dia << "/" << mes << "/" << anio;
+    rlutil::locate(9, 7);
+    cout << "MEDIO DE PAGO: " << pago;
+    rlutil::locate(9, 9);
+    cout << "ENTREGA: " << entrega;
+    rlutil::locate(9, 11);
+    cout << "PLATO: " << plato.getNombre();
+    rlutil::locate(9, 13);
+    cout << "D.N.I. DE CLIENTE: ";
+    rlutil::setColor(rlutil::WHITE);
+    rlutil::locate(29, 13);
+    cin >> dni;
+    int clienteId = ExisteCliente(dni);
+    if (clienteId == -1)
+    {
+        clienteId = CrearClienteVista(dni);
+        if (clienteId == -1) return;
+    }
+
+    Venta obj;
     obj.setId(nuevoId + 1);
+    obj.setClienteId(clienteId);
+    obj.setEntrega((MedioEntrega)entrega);
+    obj.setFecha(Fecha(dia,mes,anio));
+    obj.setPago((MedioPago)pago);
+    obj.setPlatoId(platoId);
 
     rlutil::locate(25, 20);
-    if (EmpleadoGuardar(obj, true))
+    if (VentaGuardar(obj, true))
     {
         rlutil::setColor(rlutil::LIGHTGREEN);
         cout << "EL REGISTRO SE GUARDO CORRECTAMENTE.";
-        rlutil::locate(25, 22);
-        system("pause");
     }
     else
     {
+        rlutil::setColor(rlutil::LIGHTRED);
         cout << "HA OCURRIDO UN ERROR AL GUARDAR LOS DATOS.";
-        rlutil::locate(25, 22);
-        system("pause");
     }
+    rlutil::locate(25, 22);
+    system("pause");
+    rlutil::setColor(rlutil::LIGHTGREEN);
 }
 
-int EmpleadoGetUltimoId()
+int CreacionVentaSeleccionarPlato()
+{
+    int platoId = -1;
+    system("cls");
+    FILE* f = fopen("Plato.dat", "rb");
+    if (f == NULL)
+    {
+        rlutil::locate(6, 6);
+        cout << "NO HAY REGISTROS.";
+        return platoId;
+    }
+    Plato obj;
+    int i = 0;
+    bool hayDisponibles = false;
+    while (fread(&obj, sizeof(Plato), 1, f))
+    {
+        if (obj.getDisponible())
+        {
+            rlutil::locate(2, 3 + i);
+            cout << obj.getId();
+            rlutil::locate(6, 3 + i);
+            cout << obj.getNombre();
+            rlutil::locate(29, 3 + i);
+            cout << obj.getPrecio();
+            rlutil::locate(43, 3 + i);
+            cout << obj.getTipoStr();
+            i++;
+            hayDisponibles = true;
+        }
+    }
+    fclose(f);
+    rlutil::locate(6, 8 + i);
+    if (hayDisponibles)
+    {
+        cout << "INGRESE EL ID DEL REGISTRO PARA SELECCIONARLO: ";
+        rlutil::locate(53, 8 + i);
+
+        rlutil::setColor(rlutil::WHITE);
+        cin >> platoId;
+
+        rlutil::setColor(rlutil::LIGHTGREEN);
+        system("cls");
+    }
+    else
+    {
+        cout << "NO SE ENCUENTRAN PLATOS DISPONIBLES.";
+        system("pause");
+
+        system("cls");
+    }
+    return platoId;
+}
+
+int VentaGetUltimoId()
 {
     int id = 0;
-    FILE* f = fopen("Empleado.dat", "rb+");
+    FILE* f = fopen("Venta.dat", "rb+");
     if (f == NULL)
     {
         return 0;
     }
-    fseek(f, (sizeof(Empleado) * (GetEmpleadosCantidad() - 1)), SEEK_SET);
-    Empleado obj;
+    fseek(f, (sizeof(Venta) * (GetVentasCantidad() - 1)), SEEK_SET);
+    Venta obj;
     if (fread(&obj, sizeof(obj), 1, f))
     {
         id = obj.getId();
@@ -568,39 +668,39 @@ int EmpleadoGetUltimoId()
     return id;
 }
 
-bool EmpleadoGuardar(Empleado obj, bool nuevo)
+bool VentaGuardar(Venta obj, bool nuevo)
 {
     if (nuevo)
     {
-        FILE* f = fopen("Empleado.dat", "ab");
+        FILE* f = fopen("Venta.dat", "ab");
         if (f == NULL)
         {
             return false;
         }
         fseek(f, 0, SEEK_END);
-        fwrite(&obj, sizeof(Empleado), 1, f);
+        fwrite(&obj, sizeof(Venta), 1, f);
         fclose(f);
         return true;
     }
     else
     {
-        FILE* f = fopen("Empleado.dat", "rb+");
+        FILE* f = fopen("Venta.dat", "rb+");
         if (f == NULL)
         {
             return false;
         }
         int pos = obj.getId() - 1;
-        fseek(f, sizeof(Empleado) * pos, SEEK_SET);
-        fwrite(&obj, sizeof(Empleado), 1, f);
+        fseek(f, sizeof(Venta) * pos, SEEK_SET);
+        fwrite(&obj, sizeof(Venta), 1, f);
         fclose(f);
         return true;
     }
 }
 
-int GetEmpleadosCantidad()
+int GetVentasCantidad()
 {
     int bytes;
-    FILE* f = fopen("Empleado.dat", "rb");
+    FILE* f = fopen("Venta.dat", "rb");
     if (f == NULL)
     {
         return -1;
@@ -608,16 +708,16 @@ int GetEmpleadosCantidad()
     fseek(f, 0, SEEK_END);
     bytes = ftell(f);
     fclose(f);
-    return bytes / sizeof(Empleado);
+    return bytes / sizeof(Venta);
 }
 
-Empleado GetEmpleadoById(int id)
+Venta GetVentaById(int id)
 {
-    Empleado obj;
-    FILE* f = fopen("Empleado.dat", "rb+");
+    Venta obj;
+    FILE* f = fopen("Venta.dat", "rb+");
     if (f != NULL)
     {
-        fseek(f, (sizeof(Empleado) * (id - 1)), SEEK_SET);
+        fseek(f, (sizeof(Venta) * (id - 1)), SEEK_SET);
         fread(&obj, sizeof(obj), 1, f);
         fclose(f);
     }

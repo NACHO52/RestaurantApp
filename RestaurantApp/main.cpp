@@ -5,6 +5,7 @@
 #include "Logica.h"
 #include "ModuloPlato.h"
 #include "ModuloEmpleado.h"
+#include "ModuloVenta.h"
 
 using namespace std;
 
@@ -42,8 +43,7 @@ int main()
             break;
         case 4:
             system("cls");
-            cout << "opcion 4" << endl;
-            system("pause");
+            MenuModuloVenta();
             system("cls");
             break;
         case 0:
